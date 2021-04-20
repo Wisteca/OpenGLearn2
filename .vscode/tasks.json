@@ -1,0 +1,36 @@
+{
+	"version": "2.0.0",
+    "tasks": [
+        {
+            "type": "cppbuild",
+            "label": "C/C++: g++.exe générer le fichier actif", // THIS LABEL SHOULD BE THE SAME IN 'preLaunchTask' command (look for xxx)
+            "command": "C:\\DEV\\MinGW_x86_64\\mingw64\\bin\\g++.exe", // CHANGE THIS
+            "args": [
+                "-Wall",
+                "-g",
+                "${fileDirname}\\**.c??",
+                "-o",
+                "build\\main.exe",
+                "-I",
+                "include",
+                "-L",
+                "lib",
+                "-lglfw3dll",
+                "-lopengl32",
+                "-lglu32",
+                "-lgdi32"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}" // CHANGE THIS
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "detail": "compilateur : C:\\DEV\\MinGW_x86_64\\mingw64\\bin\\g++.exe" // CHANGE THIS
+        }
+    ]
+}
