@@ -4,6 +4,8 @@
  */
 
 #include "Shader.h"
+#include <fstream>
+#include <sstream>
 
 Shader::Shader(const string vShaderPath, const string fShaderPath)
 {
@@ -128,9 +130,19 @@ void Shader::setUniform(const string name, int value)
     glUniform1i(uniformLocation(name), value); 
 }
 
-void Shader::setUniform(const string name, float x, float y, float z)
+void Shader::setUniform(const string name, vec2 v)
 {
-    glUniform3f(uniformLocation(name), x, y, z);
+    glUniform2f(uniformLocation(name), v.x, v.y);
+}
+
+void Shader::setUniform(const string name, vec3 v)
+{
+    glUniform3f(uniformLocation(name), v.x, v.y, v.z);
+}
+
+void Shader::setUniform(const string name, vec4 v)
+{
+    glUniform4f(uniformLocation(name), v.x, v.y, v.z, v.w);
 }
 
 void Shader::setUniform(const string name, mat4 matrix)

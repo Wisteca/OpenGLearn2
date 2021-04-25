@@ -1,13 +1,6 @@
 #pragma once
 
-#include <glad/glad.h> // include glad to get all the required OpenGL headers
-#include <string>
-#include <fstream>
-#include <sstream>
-#include <iostream>
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
+#include "Utils.h"
 using namespace std;
 using namespace glm;
 
@@ -41,11 +34,13 @@ class Shader
     /**
      * @brief Modify a uniform variable of the shader program
      */
-    void setUniform(const string name, float value);
-    void setUniform(const string name, bool value);
-    void setUniform(const string name, int value);
-    void setUniform(const string name, float x, float y, float z);
-    void setUniform(const string name, mat4 matrix);
+    void setUniform(string name, float value);
+    void setUniform(string name, bool value);
+    void setUniform(string name, int value);
+    void setUniform(string name, vec2 v);
+    void setUniform(string name, vec3 v);
+    void setUniform(string name, vec4 v);
+    void setUniform(string name, mat4 matrix);
 
     private :
 

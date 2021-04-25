@@ -1,0 +1,129 @@
+@startuml Graphics
+
+abstract class CGLObject
+{
+    -m_behaviors : list<Behavior*>
+    -m_pController : PhysicController*
+    -m_pos : vec3
+
+    +CGLObject() = default
+    +CGLObject(pos : vec3)
+    +CGLObject(copy : const CGLObject&)
+    +~CGLObject() {virtual}
+    +clone() : CGLObject* {virtual}
+    +render(shader : const Shader&) : void {abstract}
+    +ticks() : void {abstract}
+    +getPosition() : vec3
+    +setPosition(pos : vec3) : bool {virtual}
+    +addBehavior(behavior : Behavior*) : void {virtual}
+    +removeBehavior(behavior : Behavior*) : bool {virtual}
+    +containsBehavior(behavior : Behavior*) : bool
+    +getBehaviors() : const list<Behavior*>&
+    +setPhysicController(pc : PhysicController*) : void
+    +getPhysicController() : PhysicController*
+}
+
+abstract class WorldObject
+{
+    -m_scale : vec3
+    -m_rotation : vec3
+    -m_vertices : vector<float>
+
+    +WorldObject(vertices : const float[])
+    +WorldObject(vertices : const float[], pos : vec3)
+    +WorldObject(vertices : vector<float>)
+    +WorldObject(vertices : vector<float>, pos : vec3)
+}
+WorldObject -up-|> CGLObject
+
+class 2DObject extends WorldObject
+{
+    -m_texture : Texture*
+}
+2DObject o-left- Texture
+
+
+
+class World
+{
+    -m_wObjects : list<WorldObject*>
+
+    +ticks() : void
+    +add(obj : WorldObject*) : void
+    +remove(obj : WorldObject*) : bool
+    +contains(obj : WorldObject*) : bool
+}
+World *-- WorldObject
+
+class WorldFactory << (S,#FF7700) Singleton >>
+{
+    -m_instance : WorldFactory* {static}
+
+    +getInstance() : WorldFactory* {static}
+    +loadWorld(file : const string&) : World* {virtual}
+}
+WorldFactory .down.> World : <<create>>
+
+
+
+class Screen
+{
+    -m_camera : Camera*
+    -m_worlds : list<World*>
+    -m_shader : Shader*
+
+    +doTime() : void
+}
+Screen *-- Camera
+Screen *-- World
+Screen *-- Shader
+
+class Camera extends CGLObject
+{
+    -view : mat4
+    -projection : mat4
+}
+
+class Shader
+{
+    -m_programID : GLuint
+    -m_shadersID : vector<GLuint>
+
+    +compile(path : const string&) : bool
+    +linkProgram() : bool
+    +use() : void
+    +setUniform(name : const string&, value : ...) : bool
+}
+
+class Texture
+{
+    -m_texID : GLuint
+
+    +Texture(img : const string&)
+    +Texture(r : unsigned char, g : unsigned char, b : unsigned char, a : unsigned char)
+    +Texture(data : const unsigned char&)
+    +bind() : void
+}
+
+
+
+interface PhysicController
+{
+    +checkPosition(object : const CGLObject&, pos : vec3) : bool
+    +checkMove(object : const CGLObject&, pos vec3, normal vec3&) : bool    
+}
+CGLObject o-left- PhysicController
+
+
+
+class Behavior<T extends CGLObject>
+{
+    -m_object : T
+
+    +ticks() : void {abstract}
+}
+CGLObject *-down- Behavior
+Behavior *-down- CGLObject
+Behavior -down[hidden]-> PhysicController
+
+@enduml

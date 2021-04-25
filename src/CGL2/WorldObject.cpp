@@ -1,55 +1,54 @@
 /** 
- * @file CGLObject.cpp
- * @brief This source file implements the CGLObject class interface.
+ * @file WorldObject.cpp
+ * @brief This source file implements the WorldObject class interface.
  *
- * The CGLObject is an abstract class that extends WObject. It's the top hierarchy graphic
- * object. It manages vertices and textures.
+ * A WorldObject have vertices and texture and can be added to a World for displaying.
  * 
  * @author Bastian Cerf
- * @date 20.04.2021
+ * @date 21.04.2021
  */
 
-#include "CGLObject.h"
+#include "WorldObject.h"
 
 namespace cgl
 {
-    CGLObject::CGLObject(vector<float> vertices, char nbreVertexAttrib, vec3 pos) : WObject(pos)
+    WorldObject::WorldObject(vector<float> vertices, char nbreVertexAttrib, vec3 pos) : CGLObject(pos)
     {
         m_vertices = vertices;
         configVertices(m_vertices, nbreVertexAttrib);
     }
     
-    void CGLObject::setRotation(vec3 rot)
+    void WorldObject::setRotation(vec3 rot)
     {
         m_rot = rot;
     }
 
-    vec3 CGLObject::getRotation() const
+    vec3 WorldObject::getRotation() const
     {
         return m_rot;
     }
 
-    void CGLObject::setScale(vec3 scale)
+    void WorldObject::setScale(vec3 scale)
     {
         m_scale = scale;
     }
 
-    vec3 CGLObject::getScale() const
+    vec3 WorldObject::getScale() const
     {
         return m_scale;
     }
 
-    void CGLObject::setTexture(Texture* tex)
+    void WorldObject::setTexture(Texture* tex)
     {
         m_tex = tex;
     }
 
-    Texture* CGLObject::getTexture() const
+    Texture* WorldObject::getTexture() const
     {
         return m_tex;
     }
 
-    void CGLObject::render(Shader& program)
+    void WorldObject::render(Shader& program)
     {
         // Shader program must be in use.
 
@@ -62,7 +61,7 @@ namespace cgl
         glDrawArrays(GL_TRIANGLES, 0, m_vertices.size() / m_nbreVertexAttrib); // Draw
     }
 
-    void CGLObject::configVertices(vector<float>& vertices, char nbreVertexAttrib)
+    void WorldObject::configVertices(vector<float>& vertices, char nbreVertexAttrib)
     {
         // First create an array of vertices that can be passed to a vbo.
         float vArray[vertices.size()];
@@ -98,12 +97,12 @@ namespace cgl
         glBindVertexArray(0); // Unbind, vao is configured.
     }
 
-    void CGLObject::configVertexAttrib()
+    void WorldObject::configVertexAttrib()
     {}
 
-    mat4 CGLObject::model(mat4 work) const
+    mat4 WorldObject::model(mat4 work) const
     {
-        work = WObject::model(work); // Call super 
+        work = CGLObject::model(work); // Call super 
         // Apply rotation and scaling
         work = scale(work, m_scale);
         work = rotate(work, m_rot.x, vec3(1, 0, 0)); // On x axis (pitch)

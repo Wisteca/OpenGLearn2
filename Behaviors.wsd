@@ -1,0 +1,59 @@
+@startuml Behaviors
+
+class Behavior<T extends CGLObject>
+{
+    -m_object : T
+
+    +ticks() : void {abstract}
+}
+Behavior --* CGLObject
+
+class TranslationBehavior
+{
+    +TranslationBehavior(object : CGLObject*)
+}
+Behavior --|> TranslationBehavior : Behavior<CGLObject>
+
+class ScaleBehavior
+{
+    +ScaleBehavior(object : CGLObject*)
+}
+Behavior --|> ScaleBehavior : Behavior<WorldObject>
+
+class RotationBehavior
+{
+    +RotationBehavior(object : WorldObject*)
+}
+Behavior --|> RotationBehavior : Behavior<WorldObject>
+
+class CircleBehavior
+{
+    +CircleBehavior(object : CGLObject*)
+}
+Behavior --|> CircleBehavior : Behavior<CGLObject>
+
+class FollowBehavior
+{
+    +FollowBehavior(object : CGLObject*)
+}
+Behavior --|> FollowBehavior : Behavior<CGLObject>
+
+class AutoDeleteBehavior
+{
+    +AutoDeleteBehavior(object : CGLObject*)
+}
+Behavior --|> AutoDeleteBehavior : Behavior<CGLObject>
+
+class InputBehavior
+{
+    +InputBehavior(object : CGLObject*)
+}
+Behavior --|> InputBehavior : Behavior<CGLObject>
+
+class TextureBehavior
+{
+    +TextureBehavior(object : 2DObject*)
+}
+Behavior <|-- TextureBehavior : Behavior<2DObject>
+
+@enduml

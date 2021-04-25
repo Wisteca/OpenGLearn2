@@ -1,12 +1,11 @@
 /** 
- * @file WObject.h
- * @brief This header file describe the WObject class interface.
+ * @file CGLObject.h
+ * @brief Basic abstract game object
  *
- * A WObject (for World Object) is an abstract class all objects that can be added
- * in a world must extends.
+ * This is the superclass of all game objects that have a position in 3D space.
  * 
  * @author Bastian Cerf
- * @date 19.04.2021
+ * @date 21.04.2021
  */
 
 #pragma once
@@ -20,12 +19,9 @@ using namespace glm; // For use with glm.
 namespace cgl
 {
     /**
-     * A WObject (for World Object) is an abstract class all objects that can be added
-     * in a world must extends.
-     * 
-     * A WObject has a position in 3D space.
+     * This is the superclass of all game objects that have a position in 3D space.
      */
-    class WObject
+    class CGLObject
     {
         protected :
 
@@ -35,20 +31,20 @@ namespace cgl
          * @brief Create an object at position (0,0,0).
          * The constructor is protected because the class can't be instantiated (abstract).
          */
-        WObject() = default;
+        CGLObject() = default;
 
         /**
          * @brief Create an object with a specified position.
          * The constructor is protected because the class can't be instantiated (abstract).
          */
-        WObject(vec3 pos);
+        CGLObject(vec3 pos);
 
         public :
 
         /**
          * @brief Default destructor.
          */
-        virtual ~WObject() = default;
+        virtual ~CGLObject() = default;
 
         /**
          * @return The position.

@@ -12,6 +12,7 @@
 #pragma once
 
 #include "Utils.h"
+using namespace std;
 
 namespace cgl
 {
